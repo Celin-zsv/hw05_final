@@ -46,10 +46,9 @@ def profile(request, username):
     page_obj = paginator_func(request, post_list)
 
     following = False
-    if request.user.username:
-        if request.user.username != username:
-            following = Follow.objects.filter(
-                author=author, user=request.user).exists
+    if request.user.username and request.user.username != username:
+        following = Follow.objects.filter(
+            author=author, user=request.user).exists
 
     context = {
         'page_obj': page_obj,
@@ -131,9 +130,7 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    follow_list = Follow.objects.filter(user=request.user)
-    user_list = User.objects.filter(following__in=follow_list)
-    post_list = Post.objects.filter(author__in=user_list)
+    post_list = Post.objects.filter(author__following__user=request.user)
 
     page_obj = paginator_func(request, post_list)
     context = {
@@ -148,25 +145,12 @@ def profile_follow(request, username):
         return redirect('posts:index')
 
     author = get_object_or_404(User, username=username)
-    if Follow.objects.filter(author=author, user=request.user).exists():
+    obj, created = Follow.objects.get_or_create(
+        author=author, user=request.user)
+    if not created:
         return redirect('posts:index')
 
-    Follow.objects.create(
-        user=request.user,
-        author=author,
-    )
-    following = True
-
-    post_list = author.posts.all()
-    records_count = post_list.count()
-    page_obj = paginator_func(request, post_list)
-    context = {
-        'following': following,
-        'author': author,
-        'records_count': records_count,
-        'page_obj': page_obj,
-    }
-    return render(request, 'posts/profile.html', context)
+    return redirect('posts:profile', username=author)
 
 
 @login_required
@@ -174,12 +158,4 @@ def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
     Follow.objects.filter(author=author, user=request.user).delete()
 
-    post_list = author.posts.all()
-    records_count = post_list.count()
-    page_obj = paginator_func(request, post_list)
-    context = {
-        'author': author,
-        'records_count': records_count,
-        'page_obj': page_obj,
-    }
-    return render(request, 'posts/profile.html', context)
+    return redirect('posts:profile', username=author)

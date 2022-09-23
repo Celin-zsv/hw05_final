@@ -1,6 +1,5 @@
 import shutil
 import tempfile
-import time
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -100,9 +99,6 @@ class PostCreateFormTests(TestCase):
                 text=form_data['text'],
                 group=form_data['group'],
                 image='posts/small.gif'
-                # image=form_data['image'] -> don't work( why?
-                # how to concatenate? upload_to='posts/' and form_data['image']
-                # how to invoke?: <object>.upload_to
             ).exists()
         )
         self.assertRedirects(
@@ -212,13 +208,12 @@ class PostCacheTests(TestCase):
 
         self.assertEqual(count_before_del - 1, Post.objects.count())
 
-        # obj exists in_content_of_cache: all time of CACHE_PERIOD
-        time.sleep(settings.CACHE_PERIOD - 1)
+        # before: cache clear
         response_get_2 = self.client.get(reverse('posts:index'))
         self.assertEqual(content_before_del, len(response_get_2.content))
 
-        # первая секунда после обновления кеша - и контент меняется
-        time.sleep(1)
+        # after: cache clear
+        cache.clear()
         response_get_3 = self.client.get(reverse('posts:index'))
         self.assertNotEqual(content_before_del, len(response_get_3.content))
 
@@ -255,25 +250,27 @@ class PostFollowTests(TestCase):
         self.assertEqual(
             Follow.objects.count(), self.follow_count + 1
         )
-        self.assertEqual(
-            response_get.context.get('following'), True
-        )
-        self.assertEqual(
-            response_get.context.get('author'), self.user3
-        )
         self.assertTrue(
             Follow.objects.filter(
                 user=self.user2,
                 author=self.user3
             ).exists()
         )
+        self.assertRedirects(
+            response_get,
+            reverse('posts:profile', kwargs={'username': self.user3})
+        )
 
     def test_del_follow_by_authorized_user(self):
-        self.authorized_client2.get(
+        response_get = self.authorized_client2.get(
             reverse('posts:profile_unfollow', kwargs={'username': self.user1})
         )
         self.assertEqual(
             Follow.objects.count(), self.follow_count - 1
+        )
+        self.assertRedirects(
+            response_get,
+            reverse('posts:profile', kwargs={'username': self.user1})
         )
 
     def test_show_post_in_follow_of_user(self):

@@ -16,13 +16,11 @@ class Group(models.Model):
 class Post(models.Model):
     text = models.TextField(
         'Текст поста',
-        # verbose_name='Текст поста',
         help_text='Введите текст поста'
     )
     pub_date = models.DateTimeField(
         'Дата публикации',
         auto_now_add=True,
-        # verbose_name='Дата ввода'
     )
     author = models.ForeignKey(
         User,
@@ -100,3 +98,9 @@ class Follow(models.Model):
         related_name='following',
         verbose_name='Пользователь, на кого подписываются'
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'author'],
+                                    name='unique_follow')
+        ]
