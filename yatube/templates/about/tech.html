@@ -1,22 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Технологии{% endblock title %}
+{% load static %}
+{% block title %}My technology stack{% endblock title %}
 
 {% block content %}
 <div class="row">
-  <h1>Вот что я умею</h1>
-  <aside class="col-12 col-md-3">
+  <h2>My <span style="color:red">te</span>chnology stack</h2>
+  <aside class="col-12 col-md-4">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
-        Python
+        <img src="{% static 'img/python.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Py</span>thon
       </li>
       <li class="list-group-item">
-        Django
+        <img src="{% static 'img/django.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Dj</span>ango
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/bootstrap.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Bo</span>otstrap
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/github.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Gi</span>thub
+      </li>
+
+      <li class="list-group-item">
+        <img src="{% static 'img/sql.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">SQ</span>L
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/fr.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Fast</span>Report
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/srs.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Software</span>RequirementsSpecification
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/etl.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">ET</span>L
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/mssql.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">MS</span>SQL
+      </li>
+      <li class="list-group-item">
+        <img src="{% static 'img/oracle5.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Or</span>acle
       </li>
     </ul>
   </aside>
-  <article class="col-12 col-md-9">
-    <p>Текст страницы "Технологии"</p>
+  <article class="col-12 col-md-8">
+    <span style="color:red">Now</span> is better than never
+    <p>Although <span style="color:red">never</span> is often better than right now</p> 
   </article>
 </div>
 {% endblock content %}

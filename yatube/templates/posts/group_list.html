@@ -5,14 +5,13 @@
   Записи сообщества {{ group.title }}
 {% endblock title %}
 
-{% block header %}  
-<h1>{{ group.title }}</h1>
+{% block header %}
 {% endblock header %}
-
+  
 {% block content %}
-<h1>Лев Толстой – зеркало русской революции.</h1>
-<p>{{ group.description }}</p>
   <article>
+    <h3>{{ group.title }}</h3>
+    <p>{{ group.description }}</p>
     {% for post in page_obj %}
       <ul>
           <li>
