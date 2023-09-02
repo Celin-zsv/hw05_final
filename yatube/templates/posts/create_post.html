@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {% if is_edit %} Редактировать запись
-  {% else %}  Добавить запись
+  {% if is_edit %} Edit post
+  {% else %} Add post
   {% endif %}
 {% endblock title %}
 
@@ -15,8 +15,8 @@
 
         <div class="card-header">       
           {% block page_title %}
-            {% if is_edit %} Редактировать запись
-            {% else %}  Добавить запись
+            {% if is_edit %} Edit post
+            {% else %}  Add post
             {% endif %}
           {% endblock page_title %}
         </div>
@@ -76,9 +76,9 @@
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-primary">
                 {% if is_edit %}
-                  Сохранить
+                  Save
                 {% else %}
-                  Добавить
+                  Add
                 {% endif %}                
               </button>
             </div>

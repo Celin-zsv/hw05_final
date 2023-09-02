@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Войти{% endblock title %}
+{% block title %}Login{% endblock title %}
 
 {% block content %}
 {% load user_filters %}
@@ -8,7 +8,7 @@
     <div class="col-md-8 p-5">
       <div class="card">
         <div class="card-header">
-          Войти на сайт
+          Login
         </div>
         <div class="card-body">
           {% if form.errors %}
@@ -61,7 +61,7 @@
           {% endfor %}
           <div class="col-md-6 offset-md-4">
             <button type="submit" class="btn btn-primary">
-              Войти
+              Login
             </button>
             <a href="{% url 'users:password_reset_form' %}" class="btn btn-link">
               Забыли пароль?
